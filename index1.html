@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('ash.jpg'); /* Replace with your image URL */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            overflow: hidden;
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 600px;
+            height: 80vh;
+            background: rgba(255, 255, 255, );
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0);
+            backdrop-filter: blur(10px);
+            padding: 10px;
+        }
+
+        .chat-box {
+            flex-grow: 1;
+            padding: 10px;
+            overflow-y: auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px 10px 0 0;
+            height: 100%;
+        }
+
+        .input-container {
+            display: flex;
+            padding: 10px;
+            background: #fff;
+            border-top: 1px solid #ddd;
+            border-radius: 0 0 10px 10px;
+        }
+
+        input[type="text"] {
+            flex-grow: 1;
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 15px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .message {
+            padding: 8px 12px;
+            margin: 10px 0;
+            border-radius: 20px;
+            font-size: 16px;
+            max-width: 80%;
+        }
+
+        .user-message {
+            background-color: #e0f7fa;
+            align-self: flex-end;
+        }
+
+        .bot-message {
+            background-color: #4CAF50;
+            color: white;
+            align-self: flex-start;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-box" id="chatbox">
+            <!-- Chat messages will appear here -->
+        </div>
+        <div class="input-container">
+            <input type="text" id="userMessage" placeholder="Type your message..." />
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const responses = {
+            'hello': 'Hello! How can I assist you today?',
+            'hi': 'Hi there! How can I help?',
+            'how are you': 'I am doing great, thanks for asking! How about you?',
+            'bye': 'Goodbye! Take care!',
+            'thank you': 'You’re welcome! 😊',
+            'default': 'Sorry, I didn’t quite get that. Could you please rephrase?',
+            'your name': 'I am Chatbot, your virtual assistant!',
+            'how old are you': 'I don’t have an age, I am a chatbot!',
+            'weather': 'I can’t provide live weather updates right now, but you can check it on your favorite weather app.',
+            'what can you do': 'I can answer questions, have a conversation, and help with various tasks.',
+            'joke': 'Why don’t skeletons fight each other? Because they don’t have the guts! 😂',
+            'good morning': 'Good morning! How can I assist you today?',
+            'good night': 'Good night! Sleep well!',
+            'favorite color': 'I like green! How about you?',
+            'hobby': 'I love learning new things! What are your hobbies?',
+            'what time is it': 'Sorry, I can’t provide the current time, but you can check the time on your device!',
+            'how are you doing': 'I’m doing well, thank you for asking!',
+            'can you help me': 'Of course! What can I assist you with today?',
+            'do you like music': 'I think music is amazing! What kind of music do you like?',
+            'tell me a fun fact': 'Did you know that honey never spoils? Archaeologists have found pots of honey in ancient Egyptian tombs that are over 3,000 years old!',
+            'where are you from': 'I am not from anywhere specific, as I exist in the digital world!',
+            'how can i contact you': 'You can always chat with me here, anytime you need help!',
+        };
+
+        function sendMessage() {
+            let userMessage = document.getElementById('userMessage').value;
+            if (userMessage.trim() === '') return;
+
+            let userMessageDiv = document.createElement('div');
+            userMessageDiv.textContent = 'You: ' + userMessage;
+            userMessageDiv.classList.add('message', 'user-message');
+            document.getElementById('chatbox').appendChild(userMessageDiv);
+
+            let botResponse = getBotResponse(userMessage);
+            let botMessageDiv = document.createElement('div');
+            botMessageDiv.textContent = 'Chatbot: ' + botResponse;
+            botMessageDiv.classList.add('message', 'bot-message');
+            document.getElementById('chatbox').appendChild(botMessageDiv);
+
+            document.getElementById('userMessage').value = '';
+            document.getElementById('chatbox').scrollTop = document.getElementById('chatbox').scrollHeight;
+        }
+
+        function getBotResponse(userMessage) {
+            let normalizedMessage = userMessage.toLowerCase();
+            return responses[normalizedMessage] || responses['default'];
+        }
+    </script>
+</body>
+</html>
